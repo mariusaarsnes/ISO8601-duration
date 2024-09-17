@@ -1,6 +1,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { end, parse, pattern, toSeconds } from "../lib/index.js";
+import {
+  end,
+  parse,
+  pattern,
+  toMilliseconds,
+  toSeconds,
+} from "../lib/index.js";
 
 import { Temporal } from "@js-temporal/polyfill";
 
@@ -123,6 +129,40 @@ test("toSeconds: with supplied start date", () => {
   // Act
   const durFromJan = toSeconds(parse("P1M1D"), firstOfJanuary);
   const durFromFeb = toSeconds(parse("P1M1D"), firstOfFebruary);
+
+  // Assert
+  assert.ok(durFromJan > durFromFeb);
+  assert.equal(durFromJan, expectedJanDuration);
+  assert.equal(durFromFeb, expectedFebDuration);
+});
+
+test("toMilliseconds: returns simple HMS time in total milliseconds", () => {
+  const res = toMilliseconds(parse("PT1H2M5.512S"));
+  const expected = (3600 + 2 * 60 + 5.512) * 1000;
+  assert.equal(res, expected);
+});
+
+test("toMilliseconds: return weeks in total milliseconds", () => {
+  const res = toMilliseconds(parse("P3W"));
+  const timestamp = Date.now();
+  const d = new Date(timestamp);
+  d.setDate(d.getDate() + 7 * 3);
+  const expected = d.getTime() - new Date(timestamp).getTime();
+  assert.equal(res, expected);
+});
+
+test("toMilliseconds: with supplied start date", () => {
+  // Arrange
+  const firstOfJanuary = new Date(2016, 0, 1);
+  const firstOfFebruary = new Date(2016, 1, 1);
+  const expectedJanDuration =
+    new Date(2016, 1, 2).getTime() - new Date(2016, 0, 1).getTime();
+  const expectedFebDuration =
+    new Date(2016, 2, 2).getTime() - new Date(2016, 1, 1).getTime();
+
+  // Act
+  const durFromJan = toMilliseconds(parse("P1M1D"), firstOfJanuary);
+  const durFromFeb = toMilliseconds(parse("P1M1D"), firstOfFebruary);
 
   // Assert
   assert.ok(durFromJan > durFromFeb);

@@ -20,8 +20,11 @@ export declare const parse: (durationString: string) => Duration;
 export declare const end: (durationInput: Duration, startDate?: Date) => Date;
 /** Convert ISO8601 duration object to seconds */
 export declare const toSeconds: (durationInput: Duration, startDate?: Date) => number;
+/** Convert ISO8601 duration object to seconds */
+export declare const toMilliseconds: (durationInput: Duration, startDate?: Date) => number;
 declare const _default: {
     end: (durationInput: Duration, startDate?: Date) => Date;
+    toMilliseconds: (durationInput: Duration, startDate?: Date) => number;
     toSeconds: (durationInput: Duration, startDate?: Date) => number;
     pattern: RegExp;
     parse: (durationString: string) => Duration;

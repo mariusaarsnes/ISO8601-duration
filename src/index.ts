@@ -117,8 +117,18 @@ export const toSeconds = (
   return seconds + tzOffsetSeconds;
 };
 
+/** Convert ISO8601 duration object to seconds */
+export const toMilliseconds = (
+  durationInput: Duration,
+  startDate: Date = new Date(),
+): number => {
+  const seconds = toSeconds(durationInput, startDate);
+  return seconds * 1000;
+};
+
 export default {
   end,
+  toMilliseconds,
   toSeconds,
   pattern,
   parse,

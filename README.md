@@ -56,10 +56,12 @@ If a date is not provided for `toSeconds` the timestamp `Date.now()` is used as 
 ### Interface
 
 ```js
+export const toMilliseconds; // fn = (obj, date?) => number
 export const toSeconds; // fn = (obj, date?) => number
 export const pattern;   // ISO 8601 RegExp
 export const parse;     // fn = string => obj
 export default {
+  toMilliseconds
 	toSeconds,
 	pattern,
 	parse
@@ -71,7 +73,7 @@ export default {
 Simple usage
 
 ```js
-import { parse, end, toSeconds, pattern } from "iso8601-duration";
+import { parse, end, toMilliseconds, toSeconds, pattern } from "iso8601-duration";
 
 console.log(parse("P1Y2M4DT20H44M12.67S"));
 /* outputs =>
@@ -84,6 +86,9 @@ console.log(parse("P1Y2M4DT20H44M12.67S"));
 	seconds: 12.67
 }
 */
+
+console.log(toMilliseconds(parse("PT1H30M10.5S")));
+// outputs => 5410500
 
 console.log(toSeconds(parse("PT1H30M10.5S")));
 // outputs => 5410.5
